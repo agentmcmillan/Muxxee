@@ -8,12 +8,9 @@
 int relayPin = 0;                       //defines relay pin number
 int pixelPin = 11;                      //location of pixel pin
 int onboard = 13;
-int slowAvg;                       //placeholder  
-int fastAvg;                        //placeholder
-int relayCounter = 0;                   //relay counter placeholder
-int dist1;
-int slowNear;
-int fastNear;
+int dist0;
+int fastAvg;
+int relayCounter;
 
 
 //things you can change
@@ -27,12 +24,12 @@ int midDist = 500;
 int slowAvgCnt = 50;                       //how many averages to compare to  
 int fastAvgCnt = 15;                        //how many averages to compare to
 int discoDelay = 100;
-int waitTime = 17;
+int waitTime = 50;
 
 
 VL53L0X distSense;                       // define the distance sensor
 movingAvg avgDistance1(fastAvgCnt);        // define the fast moving average object
-movingAvg avgDistance2(slowAvgCnt);        // define the slow moving average
+//movingAvg avgDistance2(slowAvgCnt);        // define the slow moving average
 
 void setup()
 {
@@ -48,50 +45,30 @@ void setup()
     Serial.println("Failed to detect and initialize sensor!");
     while (1) {}
   }
-
-
   // Start continuous back-to-back mode (take readings as
   // fast as possible).  To use continuous timed mode
   // instead, provide a desired inter-measurement period in
   // ms (e.g. sensor.startContinuous(100)).
   distSense.startContinuous();
-  
   avgDistance1.begin();                            // initialize the moving average
-  avgDistance2.begin();                            // initialize the moving average
-
-    
   disco();
-
-
-
 }
 
 void loop()
 {
    writeEasyNeoPixel(0, 0, 0, 0);
-   //relayCounter = 0;
    digitalWrite(12, LOW);
-   dist1 = distSense.readRangeContinuousMillimeters();
+   dist0 = distSense.readRangeContinuousMillimeters();
    fastAvg = avgDistance1.reading(distSense.readRangeContinuousMillimeters());             // calculate the moving average
-   slowAvg = avgDistance2.reading(distSense.readRangeContinuousMillimeters());
-   // holdingTime = 0;
-   slowNear = slowAvg - dist1;
-   fastNear = fastAvg - dist1;
-   fastNear = abs(fastNear);
-
    
-   if((dist1 < absMax) && (fastNear > 25) ) 
+   if((dist0 < absMax) && (fastAvg > 25) ) 
    {
       relay();
       Serial.println("woooooooo"); 
-      //printThings();
+      printThings();
    }
 
-    
-    //avgDistance1.reset();
-    //avgDistance2.reset();
-    
-    
+    avgDistance1.reset();
 }
 
 
@@ -109,7 +86,7 @@ void relay()
       delay(waitTime); 
       d = distSense.readRangeContinuousMillimeters();
     } 
-    while ( d < 400);
+    while ( d < maxDistance);
     
     digitalWrite(onboard, LOW);
     delay(holdingTime);
@@ -120,19 +97,11 @@ void relay()
 
 void printThings()
 {
-    Serial.print(dist1);                   // print the individual reading
-    Serial.print("mm");
+    Serial.print(dist0);                   // print the moving average
+    Serial.print("d0");
     Serial.println();
     Serial.print(fastAvg);                   // print the moving average
-    Serial.println("mm fast avg");
-    Serial.print(slowAvg);                   // print the moving average
-    Serial.print("mm slow avg");
-    Serial.println();
-    Serial.println();
-    Serial.print(fastNear);                   // print the moving average
-    Serial.println("mm fast diff");
-    Serial.print(slowNear);                   // print the moving average
-    Serial.print("mm slow diff");
+    Serial.print(" fastAvg");
     Serial.println();
     Serial.println();
     //avgDistance1.reset();
