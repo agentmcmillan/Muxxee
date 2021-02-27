@@ -24,7 +24,7 @@ int midDist = 500;
 int slowAvgCnt = 50;                       //how many averages to compare to  
 int fastAvgCnt = 15;                        //how many averages to compare to
 int discoDelay = 100;
-int waitTime = 50;
+int waitTime = 75;
 
 
 VL53L0X distSense;                       // define the distance sensor
