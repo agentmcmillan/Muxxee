@@ -77,7 +77,7 @@ void relay()
   int d =0;
     relayCounter++;
     digitalWrite(onboard, HIGH);
-    //digitalWrite(relayPin, HIGH);
+    digitalWrite(relayPin, HIGH);
     writeEasyNeoPixel(0, 0, 100, 0);
     delay(relayOnTime);
     digitalWrite(relayPin, LOW);
