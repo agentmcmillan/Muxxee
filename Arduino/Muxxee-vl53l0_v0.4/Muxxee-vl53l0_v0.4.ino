@@ -16,7 +16,7 @@ int relayCounter;
 //things you can change
 int relayOnTime = 35;                   // how long should the relay stay on
 int holdingTime = 150;                  //how long till next trigger                        
-int minDistance = 100;                   //how close can someone be to the sensor
+int minDistance = 75;                   //how close can someone be to the sensor
 int maxDistance = 550;                  //whats the max someone should be away from the sensor
 int absMax = 600;                        //whats the max instantainous before we check the averages greater then 50 and less than 750
 int senseMax = 850;
@@ -61,7 +61,7 @@ void loop()
    dist0 = distSense.readRangeContinuousMillimeters();
    fastAvg = avgDistance1.reading(distSense.readRangeContinuousMillimeters());             // calculate the moving average
    
-   if((dist0 < absMax) && (fastAvg > 75) ) 
+   if((dist0 < absMax) && (fastAvg > minDistance) ) 
    {
       relay();
       Serial.println("woooooooo"); 
