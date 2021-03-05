@@ -16,11 +16,10 @@ int relayCounter;
 //things you can change
 int relayOnTime = 35;                   // how long should the relay stay on
 int holdingTime = 150;                  //how long till next trigger                        
-int minDistance = 100;                   //how close can someone be to the sensor
-int maxDistance = 850;                  //whats the max someone should be away from the sensor
-int absMax = 600;                        //whats the max instantainous before we check the averages greater then 50 and less than 750
-int senseMax = 850;
-int midDist = 500;
+int minDistance = 90;                   //how close can someone be to the sensor
+int maxDistance = 200;                  //whats the max someone should be away from the sensor
+int absMax = 200;                        //whats the max instantainous before we check the averages greater then 50 and less than 750
+int senseMax = 200;
 int slowAvgCnt = 50;                       //how many averages to compare to  
 int fastAvgCnt = 15;                        //how many averages to compare to
 int discoDelay = 100;
