@@ -10,7 +10,11 @@ int pixelPin = 11;                      //location of pixel pin
 int onboard = 13;
 int dist0;
 int fastAvg;
+int slowAvg;
 int relayCounter;
+int relayAvg;
+int test1;
+int test2;
 
 
 //things you can change
@@ -20,10 +24,12 @@ int minDistance = 100;                   //how close can someone be to the senso
 int maxDistance = 750;                  //whats the max someone should be away from the sensor
 int senseMax = 450;
 int midDist = 500;
-int slowAvgCnt = 50;                       //how many averages to compare to  
-int fastAvgCnt = 15;                        //how many averages to compare to
+int slowAvgCnt = 25;                       //how many averages to compare to  
+int fastAvgCnt = 10;                        //how many averages to compare to
 int discoDelay = 100;
 int waitTime = 100;
+int delta = 250;
+int delta2 = 400;
 
 
 VL53L0X distSense;                       // define the distance sensor
@@ -57,19 +63,18 @@ void setup()
 void loop()
 {
    Serial.println("alive"); 
+   Serial.println(distSense.readRangeContinuousMillimeters());
    writeEasyNeoPixel(0, 0, 0, 0);
    digitalWrite(12, LOW);
    dist0 = distSense.readRangeContinuousMillimeters();
-   fastAvg = avgDistance1.reading(distSense.readRangeContinuousMillimeters());             // calculate the moving average
-   
-   if((dist0 < maxDistance) && (fastAvg > 25) ) 
+   fastAvg = avgDistance1.reading(distSense.readRangeContinuousMillimeters());  // calculate the moving average
+   if((dist0 < maxDistance) && (fastAvg > minDistance) ) 
    {
-      relay();
-      Serial.println("woooooooo"); 
-      printThings();
+   relay2();
+   Serial.println("woooooooo"); 
+   //printThings();
    }
-
-    avgDistance1.reset();
+   avgDistance1.reset();
 }
 
 
