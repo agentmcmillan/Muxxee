@@ -1,4 +1,4 @@
-  #include <EasyNeoPixels.h>
+#include <EasyNeoPixels.h>
 #include <movingAvg.h>
 #include <Wire.h>
 #include <VL53L0X.h>
